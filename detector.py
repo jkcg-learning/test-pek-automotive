@@ -4,6 +4,7 @@ import requests
 import argparse
 from ultralytics import YOLO
 from typing import List, Tuple
+import json
 
 class AppleDetector:
     def __init__(self, model_path: str, model_url: str, input_dir: str, output_dir: str, apple_class_index: int = 47):
@@ -97,18 +98,30 @@ class AppleDetector:
                 print(f"No images found in directory {self.input_dir}")
                 return
 
+            output_data = []
             for image_file in image_files:
                 try:
                     image_path = os.path.join(self.input_dir, image_file)
                     apple_count, apple_centers, output_path = self.detect_apples_in_image(image_path)
+                    output_data.append({
+                        'image_name': image_file,
+                        'apple_count': apple_count,
+                        'apple_centers': apple_centers,
+                        'output_path': output_path
+                    })
                     print(f"Image processed: {image_path}")
                     print(f"Number of apples detected: {apple_count}")
                     print(f"Detected apple centers (x, y): {apple_centers}")
                     print(f"Output saved to: {output_path}")
                 except Exception as e:
                     print(f"Error processing image {image_file}: {e}")
+            
+            output_json_path = os.path.join(self.output_dir, 'output_data.json')
+            with open(output_json_path, 'w') as json_file:
+                json.dump(output_data, json_file, indent=4)
+            print(f"Output data saved to: {output_json_path}")
         except Exception as e:
-            print(f"Error listing images in directory {self.input_dir}: {e}")
+            print(f"Error processing images: {e}")
 
 def main():
     parser = argparse.ArgumentParser(description="Detect apples in images.")
