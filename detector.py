@@ -1,6 +1,7 @@
 import os
 import cv2
 import requests
+import argparse
 from ultralytics import YOLO
 from typing import List, Tuple
 
@@ -109,20 +110,23 @@ class AppleDetector:
         except Exception as e:
             print(f"Error listing images in directory {self.input_dir}: {e}")
 
-# Example usage
 def main():
-    model_filename = 'yolov8x.pt'
-    model_path = os.path.join('models', model_filename)
-    model_url = f'https://github.com/ultralytics/yolov8/releases/download/v1.0/{model_filename}'  # Example URL
-    input_dir = 'input_images'  # Directory containing input images
-    output_dir = 'output_images'  # Directory to save processed images
+    parser = argparse.ArgumentParser(description="Detect apples in images.")
+    parser.add_argument('--model_filename', type=str, default='yolov8x.pt', help='Filename of the YOLO model.')
+    parser.add_argument('--input_dir', type=str, required=True, help='Directory containing input images.')
+    parser.add_argument('--output_dir', type=str, required=True, help='Directory to save processed images.')
 
-    if not os.path.exists(input_dir):
-        print(f"Input directory {input_dir} does not exist")
+    args = parser.parse_args()
+
+    model_path = os.path.join('models', args.model_filename)
+    model_url = f'https://github.com/ultralytics/yolov8/releases/download/v1.0/{args.model_filename}'
+
+    if not os.path.exists(args.input_dir):
+        print(f"Input directory {args.input_dir} does not exist")
         return
 
     try:
-        apple_detector = AppleDetector(model_path, model_url, input_dir, output_dir)
+        apple_detector = AppleDetector(model_path, model_url, args.input_dir, args.output_dir)
         apple_detector.process_images()
     except Exception as e:
         print(f"Error running the main function: {e}")
