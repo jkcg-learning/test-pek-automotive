@@ -1,10 +1,8 @@
-# Apple Detection App : Test PEK Automotive
+# 1. Apple Detection App : Test PEK Automotive
 
 This Streamlit app detects apples in images using YOLOv8 models. It displays the original image with bounding boxes around detected apples, along with the number of apples detected and their midpoint coordinates.
 
-<video width="320" height="240" controls>
-  <source src="https://github.com/jkcg-learning/test-pek-automotive/blob/main/extras/app.webm" type="video/webm">
-</video>
+[![Watch the video]](https://github.com/jkcg-learning/test-pek-automotive/blob/main/extras/app_apple.mp4)
 
 ## Features
 - Detect apples in images with different YOLO models.
@@ -22,7 +20,7 @@ This Streamlit app detects apples in images using YOLOv8 models. It displays the
 
 ### Clone the Repository
 ```bash
-    git clone https://github.com/jkcg-learning/test-pek-automotive.git
+git clone https://github.com/jkcg-learning/test-pek-automotive.git
 ```
 ### Navigate to the Project Directory
 ```bash
@@ -30,11 +28,11 @@ cd test-pek-automotive
 ```
 ### Install Dependencies
 ```bash
-    pip install -r requirements.txt
+pip install -r requirements.txt
 ```
 ### Run the Streamlit App
 ```bash
-    streamlit run app.py
+streamlit run app.py
 ```
 ### Upload an Image
 Use the file uploader in the Streamlit app interface to upload an image.
@@ -46,7 +44,17 @@ Choose a YOLOv8 detection model from the dropdown menu.
 The app will display the original image with bounding boxes around detected apples, along with the number of apples detected and their midpoint coordinates.
 
 
-# test-pek-automotive
+# 2. Script mode
+
+### Command Line Arguments
+
+--input_dir: Directory containing the input images. Images should be in .png, .jpg, or .jpeg format.
+--output_dir: Directory where the output images with detected apples will be saved.
+--model_filename: Filename of the YOLO model to use for detection.
+
+```bash
+python detector.py --input_dir /path/to/input_images --output_dir /path/to/output_images --model_filename yolov8s.pt
+```
 
 ## sample input 
 
