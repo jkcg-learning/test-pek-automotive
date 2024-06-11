@@ -3,11 +3,22 @@ import cv2
 import requests
 import argparse
 from ultralytics import YOLO
-from typing import List, Tuple
 import json
 
 class AppleDetector:
+    """Class to detect apples in images using YOLO object detection."""
+
     def __init__(self, model_path: str, model_url: str, input_dir: str, output_dir: str, apple_class_index: int = 47):
+        """
+        Initialize the AppleDetector.
+
+        Args:
+            model_path (str): Path to the YOLO model file.
+            model_url (str): URL to download the YOLO model if not found locally.
+            input_dir (str): Directory containing input images.
+            output_dir (str): Directory to save processed images.
+            apple_class_index (int, optional): Index for the apple class in the YOLO model. Defaults to 47.
+        """
         self.model_path = model_path
         self.model_url = model_url
         self.input_dir = input_dir
@@ -28,6 +39,7 @@ class AppleDetector:
             print(f"Error initializing AppleDetector: {e}")
 
     def _ensure_directory(self, directory: str):
+        """Ensure that the given directory exists. If not, create it."""
         try:
             if not os.path.exists(directory):
                 os.makedirs(directory)
@@ -35,6 +47,7 @@ class AppleDetector:
             print(f"Error ensuring directory {directory}: {e}")
 
     def _download_model_if_needed(self):
+        """Download the YOLO model if not found locally."""
         if not os.path.exists(self.model_path):
             try:
                 print(f"Model not found at {self.model_path}. Downloading from {self.model_url}...")
@@ -51,7 +64,16 @@ class AppleDetector:
             except IOError as e:
                 print(f"Error saving the model: {e}")
 
-    def detect_apples_in_image(self, image_path: str) -> Tuple[int, List[Tuple[int, int]], str]:
+    def detect_apples_in_image(self, image_path: str) -> tuple:
+        """
+        Detect apples in a single image.
+
+        Args:
+            image_path (str): Path to the input image.
+
+        Returns:
+            tuple: A tuple containing the number of apples detected, list of apple center coordinates, and the output image path.
+        """
         try:
             img_bgr = cv2.imread(image_path)
             if img_bgr is None:
@@ -92,6 +114,11 @@ class AppleDetector:
             return 0, [], ""
 
     def process_images(self):
+        """
+        Process all images in the input directory.
+
+        This function detects apples in each image, saves the output images, and creates a JSON file with the detection results.
+        """
         try:
             image_files = [f for f in os.listdir(self.input_dir) if f.lower().endswith(('.png', '.jpg', '.jpeg'))]
             if not image_files:
@@ -124,6 +151,9 @@ class AppleDetector:
             print(f"Error processing images: {e}")
 
 def main():
+    """
+    Main function to parse command line arguments and run the AppleDetector.
+    """
     parser = argparse.ArgumentParser(description="Detect apples in images.")
     parser.add_argument('--model_filename', type=str, default='yolov8x.pt', help='Filename of the YOLO model.')
     parser.add_argument('--input_dir', type=str, required=True, help='Directory containing input images.')
@@ -132,6 +162,7 @@ def main():
     args = parser.parse_args()
 
     model_path = os.path.join('models', args.model_filename)
+   
     model_url = f'https://github.com/ultralytics/yolov8/releases/download/v1.0/{args.model_filename}'
 
     if not os.path.exists(args.input_dir):
