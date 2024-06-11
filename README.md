@@ -3,8 +3,7 @@
 This Streamlit app detects apples in images using YOLOv8 models. It displays the original image with bounding boxes around detected apples, along with the number of apples detected and their midpoint coordinates.
 
 <video width="320" height="240" controls>
-  <source src="extras/app.webm" type="video/webm">
-  Your browser does not support the video tag.
+  <source src="https://github.com/jkcg-learning/test-pek-automotive/blob/main/extras/app.webm" type="video/webm">
 </video>
 
 ## Features
@@ -14,10 +13,10 @@ This Streamlit app detects apples in images using YOLOv8 models. It displays the
 - Supports images in `.png`, `.jpg`, and `.jpeg` formats.
 
 ## Requirements
-- Python 3.x
-- Streamlit
-- OpenCV
-- Ultralyics YOLO
+- Python 3.9.6
+- Streamlit 1.35.0
+- OpenCV 4.10.0.82
+- Ultralyics YOLO 8.2.31
 
 ## How to Run
 
