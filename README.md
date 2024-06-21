@@ -4,6 +4,9 @@ This Streamlit app detects apples in images using YOLOv8 models. It displays the
 
 [![Watch the video]](https://github.com/jkcg-learning/test-pek-automotive/blob/main/extras/app_apple.mp4)
 
+**Note: This approach is limited to 2D object detection and is not suitable for deployment in PEK Automotive environments. For real-time applications, depth information is required, which can be obtained from an RGB-D camera or other depth-sensing technologies.**
+
+
 ## Features
 - Detect apples in images with different YOLO models.
 - Display bounding boxes and midpoint coordinates for detected apples.
@@ -48,9 +51,11 @@ The app will display the original image with bounding boxes around detected appl
 
 ### Command Line Arguments
 
---input_dir: Directory containing the input images. Images should be in .png, .jpg, or .jpeg format.
---output_dir: Directory where the output images with detected apples will be saved.
---model_filename: Filename of the YOLO model to use for detection.
+-input_dir: Directory containing the input images. Images should be in .png, .jpg, or .jpeg format.
+
+-output_dir: Directory where the output images with detected apples will be saved.
+
+-model_filename: Filename of the YOLO model to use for detection.
 
 ```bash
 python detector.py --input_dir /path/to/input_images --output_dir /path/to/output_images --model_filename yolov8s.pt
